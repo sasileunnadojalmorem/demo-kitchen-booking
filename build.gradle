@@ -1,0 +1,67 @@
+plugins {
+    id 'org.springframework.boot' version '3.1.4'
+    id 'io.spring.dependency-management' version '1.1.0'
+    id 'java'
+}
+
+group = 'com.oshi'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Spring Boot JPA Starter (uses Jakarta)
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    // JWT for authentication
+    implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
+
+    // Lombok for reducing boilerplate code
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    // MySQL Connector
+    runtimeOnly 'com.mysql:mysql-connector-j'
+
+    // Test dependencies
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
+
+    // Jakarta Persistence API (required for Spring Boot 3.x)
+    implementation 'jakarta.persistence:jakarta.persistence-api:3.1.0'
+
+    // QueryDSL JPA dependencies
+    implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
+	annotationProcessor "com.querydsl:querydsl-apt:5.0.0:jakarta"
+	annotationProcessor "jakarta.annotation:jakarta.annotation-api"
+	annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+
+    implementation 'javax.xml.bind:jaxb-api:2.3.1'  // JAXB API 추가
+    implementation 'org.glassfish.jaxb:jaxb-runtime:2.3.1'  // JAXB 런타임 추가
+
+    
+    implementation 'com.auth0:java-jwt:4.2.1'
+
+
+}
+
+sourceSets.main.java.srcDirs += 'src/main/generated'
+
+tasks.withType(JavaCompile) {
+    options.annotationProcessorGeneratedSourcesDirectory = file('src/main/generated')
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
