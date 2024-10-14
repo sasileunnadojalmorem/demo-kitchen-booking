@@ -1,25 +1,31 @@
 package com.oshi.ohsi_back.domain.user.domain.entitiy;
 
+import com.oshi.ohsi_back.domain.kitchen.domain.entity.Space;
 import com.oshi.ohsi_back.domain.user.enums.Role;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@Setter
 @Entity
-@Table(name = "user_TB")
+@Table(name = "user_tb")
 public class User implements UserDetails {
 
     @Id
@@ -44,6 +50,9 @@ public class User implements UserDetails {
     private LocalDateTime createdAt;
 
     private LocalDateTime deletedAt;
+    
+    // User가 여러 개의 Space를 가질 수 있는 관계 설정
+
 
     @Builder
     private User(String email, String nickname, String password, Role role) {
@@ -52,6 +61,8 @@ public class User implements UserDetails {
         this.password = password; // 암호화된 비밀번호를 저장
         this.role = role;
     }
+
+
 
     public void delete() {
         this.deletedAt = LocalDateTime.now();
