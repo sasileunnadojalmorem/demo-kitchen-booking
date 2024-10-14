@@ -1,11 +1,10 @@
 package com.oshi.ohsi_back.domain.kitchen.domain.entity;
 
 import java.math.BigDecimal;
-import java.security.Timestamp;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.mapping.Set;
 
 import com.oshi.ohsi_back.domain.kitchen.presentation.dto.request.AddSpaceRequestDto;
 import com.oshi.ohsi_back.domain.user.domain.entitiy.User;
@@ -22,6 +21,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -32,6 +32,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Data
 public class Space {
 
     @Id
@@ -64,17 +65,20 @@ public class Space {
 
     @Column(name = "created_at", updatable = false)
     @CreationTimestamp
-    private Timestamp createdAt;
+    private LocalDateTime createdAt;
 
     // AddSpaceRequestDto를 사용하는 생성자
-    public Space(AddSpaceRequestDto dto, User owner) {
-        this.owner = owner;
-        this.name = dto.getName();
-        this.location = dto.getLocation();
-        this.description = dto.getDescription();
-        this.price = dto.getPrice();
-        this.startTime = dto.getStartTime();
-        this.endTime = dto.getEndTime();
-        this.capacity = dto.getCapacity();
-    }
+    public static Space fromDto(AddSpaceRequestDto dto, User owner) {
+        return Space.builder()
+            .owner(owner)
+            .capacity(dto.getCapacity())
+            .name(dto.getName())
+            .location(dto.getLocation())
+            .description(dto.getDescription())
+            .price(dto.getPrice())
+            .startTime(dto.getStartTime())
+            .endTime(dto.getEndTime() != null ? dto.getEndTime() : LocalTime.of(23, 59))
+            .build();
+    }   
+    
 }

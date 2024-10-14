@@ -27,6 +27,9 @@ dependencies {
     // JWT for authentication
     implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
 
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+
+
     // Lombok for reducing boilerplate code
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'

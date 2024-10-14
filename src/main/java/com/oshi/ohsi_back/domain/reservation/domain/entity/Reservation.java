@@ -1,7 +1,7 @@
 package com.oshi.ohsi_back.domain.reservation.domain.entity;
 
-import java.security.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -18,10 +18,21 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 @Entity
 @Table(name = "reservations", uniqueConstraints = {
     @UniqueConstraint(columnNames = {"space_id", "reservation_date"})
 })
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Reservation {
 
     @Id
@@ -41,7 +52,14 @@ public class Reservation {
 
     @Column(name = "created_at", updatable = false)
     @CreationTimestamp
-    private Timestamp createdAt;
+    private LocalDateTime createdAt;
 
-    // Getters and setters
+    // 생성자 메서드 추가
+    public static Reservation createReservation(Space space, User user, LocalDate reservationDate) {
+        return Reservation.builder()
+            .space(space)
+            .user(user)
+            .reservationDate(reservationDate)
+            .build();
+    }
 }

@@ -2,6 +2,7 @@ package com.oshi.ohsi_back.domain.kitchen.presentation.dto.request;
 
 import java.math.BigDecimal;
 import java.time.LocalTime;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -49,5 +50,6 @@ public class AddSpaceRequestDto {
     @Min(value = 1, message = "Capacity must be at least 1")
     private int capacity;
 
+    
     // Getters and setters
 }

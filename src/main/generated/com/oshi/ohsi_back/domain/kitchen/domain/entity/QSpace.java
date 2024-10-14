@@ -24,7 +24,7 @@ public class QSpace extends EntityPathBase<Space> {
 
     public final NumberPath<Integer> capacity = createNumber("capacity", Integer.class);
 
-    public final SimplePath<java.security.Timestamp> createdAt = createSimple("createdAt", java.security.Timestamp.class);
+    public final DateTimePath<java.time.LocalDateTime> createdAt = createDateTime("createdAt", java.time.LocalDateTime.class);
 
     public final StringPath description = createString("description");
 
