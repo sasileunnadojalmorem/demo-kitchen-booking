@@ -16,9 +16,12 @@ import java.util.List;
 public interface SpaceRepository extends JpaRepository<Space, Long> {
 
     // 태그 ID 리스트에 해당하는 장소 검색
-
+    
     // 사용자가 등록한 장소를 최신순으로 조회
     List<Space> findByOwnerOrderByCreatedAtDesc(User owner, Pageable pageable);
     @Query("SELECT s FROM Space s WHERE s.name LIKE %:keyword% OR s.description LIKE %:keyword%")
     Page<Space> findByKeyword(@Param("keyword") String keyword, Pageable pageable);
+
+    @Query("SELECT s FROM Space s ORDER BY s.id DESC")
+    Page<Space> findByPage(Pageable pageable);
 }

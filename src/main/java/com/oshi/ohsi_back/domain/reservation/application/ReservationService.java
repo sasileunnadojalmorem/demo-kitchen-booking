@@ -44,7 +44,8 @@ public class ReservationService {
 
         // 예약 저장
         reservationRepository.save(reservation);
-
+        space.setReservations(reservation);
+        spaceRepository.save(space);
         return reservation.getId();
     }
 

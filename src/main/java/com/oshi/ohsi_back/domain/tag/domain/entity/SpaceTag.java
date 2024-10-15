@@ -11,9 +11,13 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapsId;
 import jakarta.persistence.Table;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "space_tags")
+@Data
+@NoArgsConstructor
 public class SpaceTag {
 
     @EmbeddedId

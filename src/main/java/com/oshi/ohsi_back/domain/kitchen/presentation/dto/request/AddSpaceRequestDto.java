@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.time.LocalTime;
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.validation.constraints.DecimalMin;
@@ -20,8 +22,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AddSpaceRequestDto {
-
-    
 
     @NotNull(message = "Name is required")
     @Size(max = 255, message = "Name must be less than 255 characters")
@@ -45,11 +45,14 @@ public class AddSpaceRequestDto {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
     private LocalTime endTime;
 
-
     @NotNull(message = "Capacity is required")
     @Min(value = 1, message = "Capacity must be at least 1")
     private int capacity;
 
-    
-    // Getters and setters
+    // 이미지 필드 추가
+    private MultipartFile file;
+
+    // 태그 ID 리스트 필드 추가
+    @NotNull(message = "Tag list is required")
+    private List<Long> tagList;
 }

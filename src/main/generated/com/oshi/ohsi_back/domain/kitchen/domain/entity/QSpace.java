@@ -32,6 +32,8 @@ public class QSpace extends EntityPathBase<Space> {
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
+    public final com.oshi.ohsi_back.domain.image.domain.entity.QImageEntity image;
+
     public final StringPath location = createString("location");
 
     public final StringPath name = createString("name");
@@ -39,6 +41,10 @@ public class QSpace extends EntityPathBase<Space> {
     public final com.oshi.ohsi_back.domain.user.domain.entitiy.QUser owner;
 
     public final NumberPath<java.math.BigDecimal> price = createNumber("price", java.math.BigDecimal.class);
+
+    public final com.oshi.ohsi_back.domain.reservation.domain.entity.QReservation reservations;
+
+    public final ListPath<com.oshi.ohsi_back.domain.tag.domain.entity.SpaceTag, com.oshi.ohsi_back.domain.tag.domain.entity.QSpaceTag> spaceTags = this.<com.oshi.ohsi_back.domain.tag.domain.entity.SpaceTag, com.oshi.ohsi_back.domain.tag.domain.entity.QSpaceTag>createList("spaceTags", com.oshi.ohsi_back.domain.tag.domain.entity.SpaceTag.class, com.oshi.ohsi_back.domain.tag.domain.entity.QSpaceTag.class, PathInits.DIRECT2);
 
     public final TimePath<java.time.LocalTime> startTime = createTime("startTime", java.time.LocalTime.class);
 
@@ -60,7 +66,9 @@ public class QSpace extends EntityPathBase<Space> {
 
     public QSpace(Class<? extends Space> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
+        this.image = inits.isInitialized("image") ? new com.oshi.ohsi_back.domain.image.domain.entity.QImageEntity(forProperty("image")) : null;
         this.owner = inits.isInitialized("owner") ? new com.oshi.ohsi_back.domain.user.domain.entitiy.QUser(forProperty("owner")) : null;
+        this.reservations = inits.isInitialized("reservations") ? new com.oshi.ohsi_back.domain.reservation.domain.entity.QReservation(forProperty("reservations"), inits.get("reservations")) : null;
     }
 
 }

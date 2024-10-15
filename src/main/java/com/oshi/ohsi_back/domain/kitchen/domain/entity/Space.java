@@ -3,28 +3,19 @@ package com.oshi.ohsi_back.domain.kitchen.domain.entity;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.oshi.ohsi_back.domain.image.domain.entity.ImageEntity;
 import com.oshi.ohsi_back.domain.kitchen.presentation.dto.request.AddSpaceRequestDto;
+import com.oshi.ohsi_back.domain.tag.domain.entity.SpaceTag;
 import com.oshi.ohsi_back.domain.user.domain.entitiy.User;
+import com.oshi.ohsi_back.domain.reservation.domain.entity.Reservation;  // Reservation 임포트
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
+import jakarta.persistence.*;
+import lombok.*;
 
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 @Entity
 @Table(name = "spaces")
 @Getter
@@ -67,7 +58,34 @@ public class Space {
     @CreationTimestamp
     private LocalDateTime createdAt;
 
+    // ImageEntity와 1:1 관계 설정
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "image_id", referencedColumnName = "id")
+    private ImageEntity image;
+
+    // SpaceTag와 1:N 관계 설정
+    @OneToMany(mappedBy = "space", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<SpaceTag> spaceTags;
+
+    // Reservation과 1:N 관계 설정
+    @OneToOne(mappedBy = "space", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Reservation reservations;
+
     // AddSpaceRequestDto를 사용하는 생성자
+    public static Space fromDto(AddSpaceRequestDto dto, User owner, ImageEntity image) {
+        return Space.builder()
+            .owner(owner)
+            .capacity(dto.getCapacity())
+            .name(dto.getName())
+            .location(dto.getLocation())
+            .description(dto.getDescription())
+            .price(dto.getPrice())
+            .startTime(dto.getStartTime())
+            .endTime(dto.getEndTime() != null ? dto.getEndTime() : LocalTime.of(23, 59))
+            .image(image)
+            .build();
+    }
+
     public static Space fromDto(AddSpaceRequestDto dto, User owner) {
         return Space.builder()
             .owner(owner)
@@ -79,6 +97,5 @@ public class Space {
             .startTime(dto.getStartTime())
             .endTime(dto.getEndTime() != null ? dto.getEndTime() : LocalTime.of(23, 59))
             .build();
-    }   
-    
+    }
 }

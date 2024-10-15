@@ -27,5 +27,9 @@ public class SpaceResponseDto {
     private LocalTime endTime;
     private int capacity;
     private LocalDateTime createdAt;
+    private String imageUrl;
+    private List<TagResponseDto> tags;
+    private boolean reservationCheck;
+
 
 }

@@ -21,10 +21,6 @@ public class QImageEntity extends EntityPathBase<ImageEntity> {
 
     public final NumberPath<Integer> id = createNumber("id", Integer.class);
 
-    public final NumberPath<Integer> relatedId = createNumber("relatedId", Integer.class);
-
-    public final EnumPath<com.oshi.ohsi_back.domain.image.domain.enums.ImageType> relatedType = createEnum("relatedType", com.oshi.ohsi_back.domain.image.domain.enums.ImageType.class);
-
     public final StringPath url = createString("url");
 
     public QImageEntity(String variable) {
